@@ -63,8 +63,9 @@
             width: 1200px;
             margin: 20px auto 20px auto;
         }
+
         .mypost {
-        
+
             width: 500px;
             margin: 20px auto 20px auto;
 
@@ -74,8 +75,8 @@
 
         }
 
-        .mybtn { 
-           
+        .mybtn {
+
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -85,35 +86,76 @@
 
         }
 
-        .mybtn > button {
+        .mybtn>button {
 
             margin-right: 10px;
 
         }
     </style>
+    <script>
+        $(document).ready(function () {
+            fetch("http://spartacodingclub.shop/sparta_api/weather/seoul").then(res => res.json()).then(data => {
+                // console.log(data)
+                let temp = data['temp']
+                $('#temp').text(temp)
+            })
+
+            fetch("http://spartacodingclub.shop/web/api/movie").then(res => res.json()).then(data => {
+
+
+                let rows = data['movies']
+                $('#cards').empty()
+                rows.forEach((a) => {
+                    let title = a['title']
+                    let desc = a['desc']
+                    let comment = a['comment']
+                    let star = a['star']
+                    let image = a['image']
+
+                    let star_image = '⭐'.repeat(star)
+
+                    let temp_html = `<div class="col">
+                                                <div class="card h-100">
+                                                    <img src="${image}"
+                                                        class="card-img-top" alt="...">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">${title}</h5>
+                                                        <p class="card-text">${desc}</p>
+                                                        <p>${star_image}</p>
+                                                        <p class="mycomment">${comment}</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>`
+                    $('#cards').append(temp_html)
+                })
+            })
+        })
+    </script>
 </head>
 
 <body>
     <div class="mytitle">
         <h1>내 생애 최고 영화들</h1>
-        <button>영화 기록하기</button>
+        <div>현재 서울의 날씨 : <span id="temp">20</span>도</div>
+        <button onclick="hey()">영화 기록하기</button>
     </div>
     <div class="mypost">
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
             <label for="floatingInput">영화 URL</label>
         </div>
-    <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">별점</label>
-        <select class="form-select" id="inputGroupSelect01">
-            <option selected>-- 선택하기 --</option>
-            <option value="1">⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-        </select>
-    </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">별점</label>
+            <select class="form-select" id="inputGroupSelect01">
+                <option selected>-- 선택하기 --</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+        </div>
 
         <div class="form-floating">
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
@@ -128,7 +170,7 @@
 
     </div>
     <div class="mycards">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div id="cards" class="row row-cols-1 row-cols-md-4 g-4">
             <div class="col">
                 <div class="card h-100">
                     <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
@@ -175,19 +217,6 @@
                         <h5 class="card-title">더 수어사이드 스쿼드</h5>
                         <p class="card-text">노잼 영화</p>
                         <p>⭐⭐⭐⭐</p>
-                        <p class="mycomment"> 개 노잼 영화</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
-                        class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">더 수어사이드 스쿼드</h5>
-                        <p class="card-text">노잼 영화</p>
-                        <p>⭐⭐⭐⭐⭐</p>
                         <p class="mycomment"> 개 노잼 영화</p>
                     </div>
                 </div>
